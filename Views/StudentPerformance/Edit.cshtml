@@ -1,0 +1,160 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model StudentPerformanceReportModel
+
+<div class="col-xl-7 m-6">
+      <div class="card mb-6">
+        <h5 class="card-header">Edit Student Peformance</h5>
+      <form method="post">
+        <div class="card-body">
+          <div class="row gy-6">
+          <div class="col-12">
+            <small class="text-light fw-medium d-block">Parents follow up</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Parentfollowup" value="Very Good" checked/>
+                <label class="form-check-label text-success" for="inlineRadio1">Very Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Parentfollowup" value="Good"/>
+                <label class="form-check-label text-primary" for="inlineRadio1 ">Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Parentfollowup" value="Fair"/>
+                <label class="form-check-label text-warning" for="inlineRadio1">Fair</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Parentfollowup" value="Needs improvement"/>
+                <label class="form-check-label text-danger" for="inlineRadio1">Needs improvement</label>
+              </div>
+            </div>
+
+
+            <div class="col-12">
+            <small class="text-light fw-medium d-block">Handwriting</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Handwriting" value="Very Good" checked/>
+                <label class="form-check-label text-success" for="inlineRadio1">Very Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Handwriting" value="Good"/>
+                <label class="form-check-label text-primary" for="inlineRadio1">Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Handwriting" value="Fair"/>
+                <label class="form-check-label text-warning" for="inlineRadio1">Fair</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Handwriting" value="Needs improvement"/>
+                <label class="form-check-label text-danger" for="inlineRadio1">Needs improvement</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+            <small class="text-light fw-medium d-block">Reading skill</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Readingskill" value="Very Good" checked/>
+                <label class="form-check-label text-success" for="inlineRadio1">Very Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Readingskill" value="Good"/>
+                <label class="form-check-label text-primary" for="inlineRadio1">Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Readingskill" value="Fair"/>
+                <label class="form-check-label text-warning" for="inlineRadio1">Fair</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Readingskill" value="Needs improvement"/>
+                <label class="form-check-label text-danger" for="inlineRadio1">Needs improvement</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+            <small class="text-light fw-medium d-block">Material handling</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Materialhandling" value="Very Good" checked />
+                <label class="form-check-label text-success" for="inlineRadio1">Very Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Materialhandling" value="Good"/>
+                <label class="form-check-label text-primary" for="inlineRadio1">Good</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Materialhandling" value="Fair"/>
+                <label class="form-check-label text-warning" for="inlineRadio1">Fair</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Materialhandling" value="Needs improvement"/>
+                <label class="form-check-label text-danger" for="inlineRadio1">Needs improvement</label>
+              </div>
+            </div>
+
+            <hr>
+
+            <h6>Daily Students Peformance Update</h6>
+
+
+            <div class="col-12">
+              <small class="text-light form-check-inline fw-medium d-block">Your child actively participated in-class activity</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="ActiveParticipation" value="Yes" checked/>
+                <label class="form-check-label text-success" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="ActiveParticipation" value="No" />
+                <label class="form-check-label text-danger" for="inlineRadio1">No</label>
+              </div>
+              
+            </div>
+
+            <div class="col-12">
+              <small class="text-light form-check-inline fw-medium d-block">Your child was smilling and having fun today</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for = "HavingFun" value="Yes" checked/>
+                <label class="form-check-label text-success" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for = "HavingFun"  value="No"/>
+                <label class="form-check-label text-danger" for="inlineRadio1">No</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <small class="text-light form-check-inline fw-medium d-block">Your child wore the school uniform properly</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Formality" value="Yes" checked />
+                <label class="form-check-label text-success" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Formality" value="No" />
+                <label class="form-check-label text-danger" for="inlineRadio1">No</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <small class="text-light form-check-inline fw-medium d-block">Your child had a good time eating breakfast and lunch</small>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for = "Meal" value="Yes" checked/>
+                <label class="form-check-label text-success" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" asp-for="Meal" value="No" />
+                <label class="form-check-label text-danger" for="inlineRadio1">No</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="exampleFormControlTextarea1" asp-for= "TeacherComment" class="form-label mb-3">Teachers Comment</label>
+              <textarea class="form-control" asp-for= "TeacherComment" rows="3"></textarea>
+            </div>
+
+            <div class="ml-4 demo-inline-spacing ">
+             <button type="submit" class="btn btn-primary m-2">Post</button>
+             <a class="btn btn-secondary m-2" asp-controller="StudentPerformance" asp-action="Reports" asp-route-UserName = "@Model.UserName">Back</a>
+          </div>
+
+          </div>
+
+        </div>
+    </form>
+
+      </div>
+</div>

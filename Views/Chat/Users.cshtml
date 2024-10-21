@@ -1,0 +1,65 @@
+@model IEnumerable<ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+
+<div class="container mt-4">
+    <h4 class="mb-4 text-secondary">Users</h4>
+    <div class="row">
+        @foreach (var user in Model)
+        {
+            <a href="@Url.Action("ChatRoom", "Chat", new { ReceiverId = user.Id })">
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <div class="row g-0">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar @(user.Status ? "avatar-online" : "avatar-offline")" data-user-id="@user.Id">
+                                    <img src="@Url.Action("GetProfilePicture", "Account", new { user.UserName })" 
+                                         alt="Profile Picture" 
+                                         class="rounded-circle" 
+                                         style="width: 40px; height: 40px; margin-right: 10px;" />
+                                </div>
+                            </div>
+
+                            <div class="mx-2 col-5">
+                                <span class="text-dark">@user.FirstName @user.LastName</span>
+                            </div>
+
+                            @if (await userManager.IsInRoleAsync(user, "Admin"))
+                            {
+                                <div class="mx-2 col-2">
+                                    <span class="text-success">Admin</span>
+                                </div>
+                            }
+                            else if (await userManager.IsInRoleAsync(user, "Teacher"))
+                            {
+                                <div class="mx-2 col-2">
+                                    <span class="text-warning">Teacher</span>
+                                </div>
+                            }
+                            else if (await userManager.IsInRoleAsync(user, "Student"))
+                            {
+                                <div class="mx-2 col-2">
+                                    <span class="text-primary">Student</span>
+                                </div>
+                            }
+
+                            <div class="mx-2 col-2" id="unseen-count-@user.Id">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,99 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model ReportPerformanceDetail
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+        <a asp-controller="StudentPerformance" asp-action="Students" class="mx-6 col-1 btn btn-secondary">Back</a>
+        <div>
+            <a class="btn btn-primary" asp-controller="StudentPerformance" asp-action="Create" asp-route-UserName="@Model.UserName">ፍጠር (Create)</a>
+        </div>
+
+        <form method="get" asp-controller="StudentPerformance" asp-action="Reports" class="d-flex align-items-end">
+            <div class="mr-2" style="flex: 1;">
+                <select name="time" class="form-control">
+                    <option value="">የጊዜ መረጃ ይወርዱ (Select Timeframe)</option>
+                    <option value="Today">ዛሬ (Today)</option>
+                    <option value="Week">የቀድሞ ሳምንት (Last Week)</option>
+                    <option value="Month">የቀድሞ ወር (Last Month)</option>
+                </select>
+            </div>
+            <input type="hidden" name="UserName" value="@Model.UserName">
+            <button type="submit" class="btn btn-success">ፈልግ (Search)</button>
+        </form>
+    </div>
+@if (Model.PerformanceReport != null && Model.PerformanceReport.Count() > 0)
+{
+    <span class="text-success">Total @Model.PerformanceReport.Count()</span>
+    <hr>
+    <div class="row">
+        @foreach (var report in Model.PerformanceReport){
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <i class="fas fa-chart-line"></i> እንቅስቃሴ ሪፖርት / Performance Report
+                        </h5>
+                        <hr>
+                        <div class="mb-2">
+                            <strong>ምሳ / Meal:</strong> <span style="color: blue;">@report.Meal</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>አካል ተሳትፎ / Active Participation:</strong> <span style="color: green;">@report.ActiveParticipation</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>መደሰብ / Having Fun:</strong> <span style="color: orange;">@report.HavingFun</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>ሕገወጥ / Formality:</strong> <span style="color: purple;">@report.Formality</span>
+                        </div>
+
+                        <hr>
+                        <div class="mb-2">
+                            <strong>እንቅስቃሴ / Handwriting:</strong> <span style="color: teal;">@report.Handwriting</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>እንቅስቃሴ እንዴት ነው / Reading Skill:</strong> <span style="color: maroon;">@report.Readingskill</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>የወላጅ እንቅስቃሴ / Parent Follow-Up:</strong> <span style="color: olive;">@report.Parentfollowup</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>የመዋቅር እንቅስቃሴ / Material Handling:</strong> <span style="color: navy;">@report.Materialhandling</span>
+                        </div>
+                        <hr>
+                        
+                        <p></p>
+                        <hr>
+                        <div class="mb-2">
+                            <strong></strong> <span style="color: navy;">@report.CreatedAt</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong></strong> <span style="color: navy;">Posted By @report.CreatedBy</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <form method="post" asp-controller="StudentPerformance" asp-action="Delete" class="d-inline">
+                                <input type="hidden" name="Id" value="@report.Id">
+                                <input type="hidden" name="UserName" value="@Model.UserName">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> ይሰርዙ / Delete
+                                </button>
+                            </form>
+                            <a class="btn btn-warning btn-sm" asp-controller="StudentPerformance" asp-action="Edit" asp-route-Id="@report.Id" asp-route-UserName="@Model.UserName">
+                                <i class="fas fa-edit"></i> አርትዕ / Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info text-center" role="alert">
+        <i class="fas fa-info-circle"></i> አንድ እንቅስቃሴ ሪፖርት አልተገኘም / No performance reports found.
+    </div>
+}
+</div>

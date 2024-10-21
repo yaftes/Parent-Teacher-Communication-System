@@ -1,0 +1,283 @@
+@using Parent_Teacher_Daily_Communication_System
+@model DashboardReport
+
+@if (TempData["UserDeleted"] != null)
+{
+    <div class="col-12 m-3 alert alert-danger">@TempData["UserDeleted"]</div>
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <!-- Counts Cards Section -->
+        <div class="col-12 mb-4">
+            <div class="row g-3">
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between mb-4">
+                                 <div class="avatar flex-shrink-0">
+                                    <i class="menu-icon tf-icons bx bx-group text-primary" style="font-size: 24px;"></i>
+                                </div>
+                            </div>
+                            <p class="mb-1 text-primary">Teachers</p>
+                            @if (Model.Teachers != null)
+                            {
+                                <h4 class="card-title mb-3">@Model.Teachers.Count()</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between mb-4">
+                                <div class="avatar flex-shrink-0">
+                                    <i class="menu-icon tf-icons bx bx-group text-primary"></i>
+                                </div>
+                            </div>
+                            <p class="mb-1 text-primary">Students</p>
+                            @if (Model.Students != null)
+                            {
+                                <h4 class="card-title mb-3">@Model.Students.Count()</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between mb-4">
+                               <div class="avatar flex-shrink-0">
+                                    <i class="menu-icon tf-icons bx bx-chalkboard text-primary"></i>
+                                </div>
+                            </div>
+                            <p class="mb-1 text-primary">Classes</p>
+                            @if (Model.Classes != null)
+                            {
+                                <h4 class="card-title mb-3">@Model.Classes.Count()</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between mb-4">
+                                <div class="avatar flex-shrink-0">
+                                    <i class="menu-icon tf-icons bx bx-book text-primary"></i>
+                                </div>
+                            </div>
+                            <p class="text-primary mb-1 ">Courses</p>
+                            @if (Model.Courses != null)
+                            {
+                                <h4 class="card-title mb-3">@Model.Courses.Count()</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lists Section -->
+        <div class="col-12 mb-4">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    @if (Model.Students != null && Model.Students.Count() != 0)
+                    {
+                        <div class="card">
+                            <h5 class="card-header bg-dark text-white">Students</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                      
+                                            <th>Full Name</th>
+                                            <th>Class</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @foreach (var student in Model.Students)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="avatar">
+                                                        <img src="@Url.Action("GetProfilePicture", "Account", new { student.UserName })" alt="PP" class="rounded-circle" style="width: 40px; height: 40px;" />
+                                                        <span>@student.FirstName @student.LastName</span>
+                                                    </div>
+                                                </td>
+                                                
+                                                <td>
+                                                    @if (student.Class == null)
+                                                    {
+                                                        <span class="text-purple">Not Assigned</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@student.Class</span>
+                                                    }
+                                                </td>
+                                                <td><a class="text-warning" asp-controller="Admin" asp-action="EditStudentProfile" asp-route-UserName="@student.UserName">Edit</a></td>
+                                                <td>
+                                                    <form method="post" asp-controller="Admin" asp-action="DeleteUser">
+                                                        <input type="hidden" name="UserName" value="@student.UserName">
+                                                        <button type="submit" class="btn btn-link text-danger p-0">Delete</button>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="m-4">
+                            <span class="text-warning">No Students</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    @if (Model.Teachers != null && Model.Teachers.Count() != 0)
+                    {
+                        <div class="card">
+                            <h5 class="card-header bg-dark text-white">Teachers</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <th>Class</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @foreach (var teacher in Model.Teachers)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="avatar">
+                                                        <img src="@Url.Action("GetProfilePicture", "Account", new { teacher.UserName })" alt="PP" class="rounded-circle" style="width: 40px; height: 40px;" />
+                                                        <span>@teacher.FirstName @teacher.LastName</span>
+                                                    </div>
+                                                </td>
+                                                
+                                                <td>
+                                                    @if (teacher.ClassTeacher != null)
+                                                    {
+                                                        foreach (var c in teacher.ClassTeacher)
+                                                        {
+                                                            if (c.Class != null)
+                                                            {
+                                                                <span>@c.Class.Name</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </td>
+                                                <td><a class=" text-warning" asp-controller="Admin" asp-action="EditTeacherProfile" asp-route-UserName="@teacher.UserName">Edit</a></td>
+                                                <td>
+                                                    <form asp-controller="Admin" asp-action="DeleteUser" method="post">
+                                                        <input type="hidden" name="UserName" value="@teacher.UserName">
+                                                        <button type="submit" class="btn btn-link text-danger p-0">Delete</button>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="m-4">
+                            <span class="text-warning">No Teachers</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Classes and Courses Section -->
+        <div class="col-12 mb-4">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    @if (Model.Courses != null && Model.Courses.Count() != 0)
+                    {
+                        <div class="card">
+                            <h5 class="card-header bg-dark text-white">Courses</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @foreach (var course in Model.Courses)
+                                        {
+                                            <tr>
+                                                <td>  <i class="menu-icon tf-icons bx bx-book text-primary"></i><span>@course.Name</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="m-4">
+                            <span class="text-warning">No Courses</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    @if (Model.Classes != null && Model.Classes.Count() != 0)
+                    {
+                        <div class="card">
+                            <h5 class="card-header bg-dark text-white">Classes</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Class</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @foreach (var Class in Model.Classes)
+                                        {
+                                            <tr>
+                                                <td><i class="menu-icon tf-icons bx bx-chalkboard text-primary"></i><span>@Class.Name</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="m-4">
+                            <span class="text-warning">No Classes</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,104 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@model List<ChatMessage>
+
+
+@if( ViewData["ReceiverId"] != null){
+var receiver = await userManager.FindByIdAsync(ViewData["ReceiverId"].ToString());
+if(receiver != null){
+<div class="container mt-4">
+    <h4 class="header">Chat Room</h4>
+    <a asp-controller="Chat" asp-action="Users" class="btn btn-outline-warning my-4">Back</a>
+    <div class="d-flex align-items-center mb-2">
+        <img src="@Url.Action("GetProfilePicture", "Account", new { @receiver.UserName })" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;" />
+        <span class="font-weight-bold text-dark">@receiver.FirstName @receiver.LastName</span>
+    </div>
+
+    <div id="chatHistory" class="border border-secondary rounded p-3" style="height: 300px; overflow-y: auto;">
+        @foreach (var message in Model)
+        {
+            var isSender = message.SenderId == userManager.GetUserId(User);
+            <div class="d-flex @((isSender) ? "justify-content-end" : "justify-content-start") mb-2">
+                <div class="card @((isSender) ? "bg-primary text-white" : "bg-secondary text-white")" style="max-width: 60%;">
+                    <div class="card-body p-2">
+                        <p class="mb-0 small" style="font-size: 0.85rem;">@message.Message</p>
+                        <small class="text-muted" style="font-size: 0.65rem; float: right;">@message.CreaetedAt.ToString("hh:mm tt")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="input-group mt-3">
+        <input type="text" id="messageInput" class="form-control rounded-pill" placeholder="Type a message..." style="width: 70%;" />
+        <button id="sendMessage" class="btn btn-primary rounded-pill" type="button">Send</button>
+    </div>
+</div>
+}
+}
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script>
+   const connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
+    connection.on("ReceiveMessage", (senderId, message) => {
+        const chatHistory = document.getElementById("chatHistory");
+        const isSender = (senderId === '@userManager.GetUserId(User)');
+        chatHistory.innerHTML += `
+
+            <div class="d-flex ${isSender ? "justify-content-end" : "justify-content-start"} mb-2">
+                <div class="card ${isSender ? "bg-primary text-white" : "bg-secondary text-white"}" style="max-width: 60%;">
+                    <div class="card-body p-2">
+                        <p class="mb-0 small" style="font-size: 0.85rem;">${message}</p>
+                        <small class="text-muted" style="font-size: 0.65rem; float: right;">@DateTime.Now.ToString("hh:mm tt")</small>
+                    </div>
+                </div>
+            </div>`;
+
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    });
+
+    document.getElementById("sendMessage").addEventListener("click", async () => {
+
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value;
+        const senderId = '@userManager.GetUserId(User)'; 
+        const receiverId = '@ViewData["ReceiverId"]'; 
+        
+        if (message) {
+            const chatHistory = document.getElementById("chatHistory");
+            chatHistory.innerHTML += `
+                <div class="d-flex justify-content-end mb-2">
+                    <div class="card bg-primary text-white" style="max-width: 60%;">
+                        <div class="card-body p-2">
+                            <p class="mb-0 small" style="font-size: 0.85rem;">${message}</p>
+                            <small class="text-muted" style="font-size: 0.65rem; float: right;">Just now</small>
+                        </div>
+                    </div>
+                </div>`;
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            const sendButton = document.getElementById("sendMessage");
+            sendButton.disabled = true;
+
+            try {
+                await connection.invoke("SendMessage", senderId, receiverId, message);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                sendButton.disabled = false;
+            }
+            messageInput.value = ""; 
+        }
+    });
+
+    document.getElementById("messageInput").addEventListener("keypress", async (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("sendMessage").click(); 
+        }
+    });
+    connection.start().catch(err => console.error(err.toString()));
+
+</script>

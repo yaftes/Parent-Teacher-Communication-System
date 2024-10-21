@@ -1,0 +1,126 @@
+@using Microsoft.AspNetCore.Identity
+@using Parent_Teacher_Daily_Communication_System.Models
+@inject UserManager<ApplicationUser> userManager
+@inject RoleManager<ApplicationRole> roleManager
+@model ProfileViewModel
+@if ( ViewBag.Success != null)
+    {
+        <div class="alert alert-success">@ViewBag.Success</div>
+    }
+
+
+@if(Model.User != null){
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-6">
+        <div class="card-body pt-4">
+
+            <div class="row g-6">
+
+              <div class="col-md-6">
+                <span class="form-label">First Name / የመጀመሪያ ስም @Model.User.FirstName</span>
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Last Name / የመጨረሻ ስም @Model.User.LastName</span>
+              </div>
+
+              <div class="col-md-6">
+               <span  class="form-label">User Name / የመጨረሻ ስም @Model.User.UserName</span>
+              </div>
+              
+
+              <div class="col-md-6">
+                <span  class="form-label">Kebele @Model.User.Kebele</span>
+              </div>
+
+             
+
+              <div class="col-md-6">
+                <span  class="form-label">Date of Birth  @Model.User.DateofBirth</span>
+              </div>
+
+
+              
+            @if(await userManager.IsInRoleAsync(Model.User,"Student")){
+
+              <div class="col-md-6">
+                <span  class="form-label">Class Roll Number @Model.User.ClassRollNumber</span>
+               
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Section @Model.User.Section</span>
+               
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Father Name @Model.User.FatherName</span>
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Education Qualification @Model.User.FatherEducationQualification</span>
+              </div>
+              <div class="col-md-6">
+                <span  class="form-label">Occupation @Model.User.FatherOccupation</span>
+              </div>
+              
+              <div class="col-md-6">
+                <span  class="form-label">Phone Number @Model.User.FatherPhoneNumber</span>
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Mother Name @Model.User.MotherName</span>
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Education Qualification @Model.User.MotherEducationQualification</span>
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Occupation @Model.User.MotherOccupation</span>
+              </div>
+
+              <div class="col-md-6">
+                <span  class="form-label">Phone Number @Model.User.MotherPhoneNumber</span>
+              </div>  
+              
+             }
+            </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div> 
+}
+
+
+<form  method="post">
+      <div class="row g-6 mx-4">
+          <h5 class="header">Change Password</h5>
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <div class="col-md-6">
+          <label asp-for="OldPassword" class="form-label">Old Password</label>
+          <input class="form-control" type="text" asp-for="OldPassword" placeholder="John" autofocus />
+          <span asp-validation-for="OldPassword" class="text-danger"></span>
+          </div>
+          <div class="col-md-6">
+          <label asp-for="NewPassword" class="form-label">New Password</label>
+          <input class="form-control" type="text" asp-for="NewPassword" placeholder="John" autofocus />
+          <span asp-validation-for="NewPassword" class="text-danger"></span>
+          </div>
+          <div class="col-md-6">
+          <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+          <input class="form-control" type="text" asp-for="ConfirmPassword" placeholder="John" autofocus />
+          <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+          </div>
+
+      <div class="mt-6">
+          <button type="submit" class="btn btn-outline-primary me-3">Update</button>
+          
+      </div>
+      </div>
+</form>

@@ -1,0 +1,69 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@using Microsoft.AspNetCore.Identity
+@model List<Announcement>
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<ApplicationRole> RoleManager
+
+@{
+    var curruser = await UserManager.GetUserAsync(User);
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    @if (curruser != null && await UserManager.IsInRoleAsync(curruser, "Admin"))
+    {
+        <div class="d-flex justify-content-between mb-4">
+            <a asp-controller="Announcement" asp-action="Create" class="btn btn-outline-success ">Add New</a>
+            <form method="get" asp-controller="Announcement" asp-action="Announcements" class="d-flex align-items-end">
+                <select name="time" class="form-select me-2">
+                    <option value="">የጊዜ መረጃ ይወርዱ (Select Timeframe)</option>
+                    <option value="Today">ዛሬ (Today)</option>
+                    <option value="Week">የቀድሞ ሳምንት (Last Week)</option>
+                    <option value="Month">የቀድሞ ወር (Last Month)</option>
+                </select>
+                <button type="submit" class="btn btn-success">ፈልግ (Search)</button>
+            </form>
+        </div>
+    }
+
+    @if (Model.Count() > 0 && Model != null)
+    {
+        <div class="row">
+            @foreach (var announcement in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card border-light shadow-sm h-100">
+                        @if (announcement.image != null && announcement.image.Length > 0)
+                        {
+                            <img class="card-img-top" src="@Url.Action("GetImage", "Announcement", new { announcement.Id })" alt="Card image cap" style="height: 200px; object-fit: cover;" />
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@announcement.Title</h5>
+                            <p class="card-text">@announcement.Description</p>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                         <span>@announcement.CreatedAt</span><br>
+                         <span>@announcement.CreatedBy</span>
+                        </div>
+
+                        @if (curruser != null && await UserManager.IsInRoleAsync(curruser, "Admin"))
+                        {
+                            <div class="row card-body">
+                                <div class="col-6">
+                                    <a asp-controller="Announcement" asp-action="Edit" asp-route-Id="@announcement.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <form asp-controller="Announcement" asp-action="Delete" method="post">
+                                        <input type="hidden" name="Id" value="@announcement.Id">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+

@@ -1,0 +1,39 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model List<ApplicationUser>
+
+
+<div class="m-6 col-6 card">
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+            <thead class="table-dark">
+                <tr>
+                <th>Photo</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Reports</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+        @if(Model != null && Model.Count() != 0){
+
+            foreach(var user in Model){
+
+            <tr>
+                <td>
+                    <div class="avatar avatar">
+                    <img src="@Url.Action("GetProfilePicture", "Account",new{user.UserName})" alt="Profile Picture" />
+                </div>
+                </td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>
+             <a asp-controller="StudentPerformance" asp-action="Reports" asp-route-UserName = "@user.UserName">Reports</a>
+                </td>          
+             </tr>
+            }
+            } 
+            </tbody>
+
+    </table>
+</div>
+</div>

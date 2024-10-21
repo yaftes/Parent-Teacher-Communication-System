@@ -1,0 +1,34 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model List<Course>
+
+
+
+<div class="m-6 col-6 card">
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+            <thead class="table-dark">
+                <tr>
+                <th>Courses</th>
+                <th>Reports</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                
+        @if(Model != null && Model.Count() != 0){
+
+            foreach(var course in Model){
+
+            <tr>
+                <td>                          <i class="menu-icon tf-icons bx bx-book text-primary"></i> <span>@course.Name</span></td>
+                <td>
+
+                    <a asp-controller="CourseReport" asp-action="Reports" asp-route-CourseId = "@course.Id"><span class="text-primarys">Reports</span></a>
+                </td>          
+             </tr>
+            }
+            } 
+            </tbody>
+
+    </table>
+</div>
+</div>

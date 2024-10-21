@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Parent-Teacher Daily Communication System.props" />
+</Project>

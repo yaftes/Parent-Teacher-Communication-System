@@ -1,0 +1,104 @@
+@using Microsoft.AspNetCore.Identity
+@using Parent_Teacher_Daily_Communication_System.Models
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<ApplicationRole> RoleManager
+@model ReportCourseDetail
+
+@{
+    var curruser = await UserManager.GetUserAsync(User);
+}
+
+
+
+<div class="container mt-4">
+@if (  TempData["DeletedReport"] != null){
+  <div class="col-3 m-3 alert alert-danger">@TempData["DeletedReport"]</div>
+}
+<div class="d-flex justify-content-between mb-4">
+     @if(curruser != null && await UserManager.IsInRoleAsync(curruser,"Teacher")){
+        <a class="btn btn-outline-primary" asp-controller="CourseReport" asp-action="Create" asp-route-CourseId ="@Model.Id">ፍጠር (Create)</a>
+        
+     }
+        
+        <form method="get" asp-controller="CourseReport" asp-action="Reports" class="d-flex align-items-end">
+            <div class="mr-2" style="flex: 1;">
+                <select name="time" class="form-control">
+                    <option value="">የጊዜ መረጃ ይወርዱ (Select Timeframe)</option>
+                    <option value="Today">ዛሬ (Today)</option>
+                    <option value="Week">የቀድሞ ሳምንት (Last Week)</option>
+                    <option value="Month">የቀድሞ ወር (Last Month)</option>
+                </select>
+            </div>
+             <input type="hidden" name="CourseId" value="@Model.Id">
+            <button type="submit" class="btn btn-success">ፈልግ (Search)</button>
+        </form>
+    </div>
+@if(Model.CourseReports != null && Model.CourseReports.Count() != 0) {
+    <div class="row mb-4 g-4">
+        @foreach(var report in Model.CourseReports) {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-secondary text-white d-flex align-items-center">
+                        <i class="bi bi-book-fill me-2" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h5 class="card-title mb-0 text-white">Report</h5><br>
+                            <h6 class="card-subtitle text-white">@report.CreatedAt</h6>
+                        </div>
+                    </div>
+                    <div class="card-body mt-2">
+                        <h6 class="card-subtitle mb-2">Lesson of the Day</h6>
+                        <p class="card-text">@report.Lessonoftheday</p>
+                        <hr>
+                        
+                        <div>
+                            <h6 class="card-subtitle">Homework</h6>
+                            @if(report.HomeWorkonExBook == true) {
+                                <span class="badge bg-success">Taken</span>
+                            } else {
+                                <span class="badge bg-danger">Not Taken</span>
+                            }
+                            <span class="ms-2">Page No: @report.HomeWorkonTextBookPage</span>
+                        </div>
+                        <hr>
+
+                        <div>
+                            <h6 class="card-subtitle">Class Work</h6>
+                            @if(report.classWorkonExBook == true) {
+                                <span class="badge bg-success">Taken</span>
+                            } else {
+                                <span class="badge bg-danger">Not Taken</span>
+                            }
+                            <span class="ms-2">Page No: @report.classWorkonTextBookPage</span>
+                        </div>
+                        <hr>
+
+                        <div>
+                            <h6 class="card-subtitle">Posted By <span class="ms-2  text-warning"> @report.CreatedBy</span></h6>
+                            
+                        </div>
+                        <hr>
+                    </div>
+                
+                  @if(curruser != null && await UserManager.IsInRoleAsync(curruser,"Teacher")){
+
+                    <div class="card-footer d-flex justify-content-between">
+                        <div>
+                            <a asp-controller="CourseReport" asp-action="Edit" asp-route-CourseReportId ="@report.Id" asp-route-CourseId="@Model.Id" class="btn btn-outline-primary">Edit</a>
+                        </div>
+                        <div>
+                            <form method="post" asp-controller="CourseReport" asp-action="Delete" class="d-inline">
+                                <input type="hidden" name="CourseReportId" value="@report.Id">
+                                <input type="hidden" name="CourseId" value="@Model.Id">
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    }
+
+
+                </div>
+            </div>
+        }
+    </div>
+}
+

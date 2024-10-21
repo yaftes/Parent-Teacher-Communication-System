@@ -1,0 +1,69 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model CourseReportModel
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row g-6">
+    <div class="col-md-6">
+        <div class="card">
+        <h5 class="card-header">Daily Reports</h5>
+        <div class="card-body">
+
+         <form method="post" asp-controller="CourseReport" asp-action="Create" >
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label class="mt-3 form-label text-primary"></label>
+
+            <div >
+                <label asp-for = "Lessonoftheday" class="mt-3 form-label">Lesson of the day</label>
+                <textarea asp-for = "Lessonoftheday"  class = "form-control"></textarea>
+                <span asp-validation-for = "Lessonoftheday" class="text-danger"></span>
+            </div>
+
+            <div class="ml-3 row gy-6">
+                <div class="ml-2 col-md-6">
+                    <div class="form-check form-check-inline mt-3">
+                        <input class="form-check-input" type="checkbox" asp-for="HomeWorkonExBook" />
+                        <label class="form-check-label" for="inlineCheckbox1">Home Work</label>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="smallInput" class="form-label">Page Number</label>
+                    <input type="number" asp-for="HomeWorkonTextBookPage" id="smallInput" class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <input type="hidden" name="CourseId" value="@Model.CourseId">
+
+            <div class="ml-3 row gy-6">
+                <div class="ml-2 col-md-6">
+                    <div class="form-check form-check-inline mt-3">
+                        <input class="form-check-input" type="checkbox"  asp-for="classWorkonExBook"/>
+                        <label class="form-check-label" asp-for="classWorkonExBook">Class Work</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="classWorkonTextBookPage" >Page Number</label>
+                    <input id="smallInput" type="number" class="form-control form-control-sm" asp-for="classWorkonTextBookPage" />
+                </div>
+
+            </div>
+
+      
+
+            <div class="demo-inline-spacing mt-1 ml-3">
+             <button type="submit" class="btn btn-outline-primary">Post</button>
+             <a asp-controller="CourseReport" asp-action="Reports" asp-route-CourseId = "@Model.CourseId" class="btn btn-outline-secondary">Back</a>
+            </div>
+            <hr>
+
+         </form>
+
+        </div>
+        </div>
+    </div>
+
+    </div>
+</div>

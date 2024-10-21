@@ -1,0 +1,176 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model UserRegisterModel
+
+
+
+@if ( ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+
+<div>
+@if(ViewBag.Password != null && ViewBag.Password != string.Empty){ 
+<div class="mx-5 my-1 col-3 alert alert-primary alert-dismissible" role="alert">
+    <h4 class="header">New Password : @ViewBag.Password</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+
+    <div class="m-3">
+        <form asp-controller="Admin" asp-action = "ResetPassword" method="post">
+          <input type="hidden" name="UserName" value="@Model.UserName">
+          <button type="submit" class="btn btn-outline-warning">Reset Password</button>
+        </form>
+      </div>
+
+
+    <div class="col-md-12">
+      <div class="card mb-6">
+        <div class="card-body pt-4">
+
+          <form  method="post" asp-controller="Admin" asp-action="EditStudentProfile" id="formAccountSettings">
+
+            <div class="row g-6">
+
+              <div asp-validation-summary="ModelOnly" class="col-md-6 text-danger"></div>
+              <h5 class="header">Student Information</h5>
+              <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label">First Name / የመጀመሪያ ስም</label>
+                <input class="form-control" type="text" asp-for="FirstName" placeholder="John" autofocus />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="LastName" class="form-label">Last Name / የመጨረሻ ስም</label>
+                <input class="form-control" type="text" asp-for="LastName" placeholder="Doe" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+              </div>
+              
+              <div class="col-md-6">
+                <label asp-for="UserName" class="form-label">User Name / የመጨረሻ ስም</label>
+                <input class="form-control" type="text" asp-for="UserName" placeholder="Mos/32/242" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="Class" class="form-label">Class</label>
+                <select asp-for="Class" class="form-control">
+                    @if(Model != null){
+                        @if(Model.classes != null && Model.classes.Count() != 0){
+                          @foreach(var c in Model.classes){
+                              <option value="@c.Name">@c.Name</option>
+                          }
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Class" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="ClassRollNumber" class="form-label">Class Roll Number</label>
+                <input class="form-control" type="text" asp-for="ClassRollNumber" placeholder="Mos/2232/23"/>
+                <span asp-validation-for="ClassRollNumber" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="Section" class="form-label">Section</label>
+                <input class="form-control" type="text" asp-for="Section" placeholder="90" />
+                <span asp-validation-for="Section" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="Kebele" class="form-label">Kebele</label>
+                <input class="form-control" type="text" asp-for="Kebele"  placeholder="Piyasa" />
+                <span asp-validation-for="Kebele" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="SubCity" class="form-label">Sub City</label>
+                <input class="form-control" type="text" asp-for="SubCity" />
+                <span asp-validation-for="SubCity" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="DateofBirth" class="form-label">Date of Birth</label>
+                <input class="form-control" type="date" asp-for="DateofBirth"  />
+                <span asp-validation-for="DateofBirth" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="HomeAddress" class="form-label">Address / የቤት አድራሻ</label>
+                <input type="text" class="form-control" asp-for="HomeAddress" placeholder="Somewhere" />
+                <span asp-validation-for="HomeAddress" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="FatherName" class="form-label">Father Name</label>
+                <input class="form-control" type="text" asp-for="FatherName" placeholder="Tesfaye" />
+                <span asp-validation-for="FatherName" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="FatherEducationQualification" class="form-label">Education Qualification</label>
+                <input class="form-control" type="text" asp-for="FatherEducationQualification"  placeholder="Degree" />
+                <span asp-validation-for="FatherEducationQualification" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="FatherOccupation" class="form-label">Occupation</label>
+                <input class="form-control" type="text" asp-for="FatherOccupation"  placeholder="Lawyer" />
+                <span asp-validation-for="FatherOccupation" class="text-danger"></span>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label" asp-for="FatherPhoneNumber">Phone Number / የስልክ ቁጥር</label>
+                <div class="input-group input-group-merge">
+                  <span class="input-group-text">ET (+251)</span>
+                  <input type="text" asp-for="FatherPhoneNumber" class="form-control" placeholder="202 555 0111" />
+                </div>
+                <span asp-validation-for="FatherPhoneNumber" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="MotherName" class="form-label">Mother Name</label>
+                <input class="form-control" type="text" asp-for="MotherName"  placeholder="Helen" />
+                <span asp-validation-for="MotherName" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="MotherEducationQualification" class="form-label">Education Qualification</label>
+                <input class="form-control" type="text" asp-for="MotherEducationQualification" placeholder="Masters" />
+                <span asp-validation-for="MotherEducationQualification" class="text-danger"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label asp-for="MotherOccupation" class="form-label">Occupation</label>
+                <input class="form-control" type="text" asp-for="MotherOccupation"  placeholder="Teacher" />
+                <span asp-validation-for="MotherOccupation" class="text-danger"></span>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label" asp-for="MotherPhoneNumber">Phone Number / የስልክ ቁጥር</label>
+                <div class="input-group input-group-merge">
+                  <span class="input-group-text">ET (+251)</span>
+                  <input type="text" asp-for="MotherPhoneNumber" class="form-control" placeholder="202 555 0111" />
+                </div>
+                <span asp-validation-for="MotherPhoneNumber" class="text-danger"></span>
+              </div> 
+             
+            </div>
+            <div class="mt-6">
+              <button type="submit" class="btn btn-outline-primary me-3">Update</button>
+              <a asp-controller="Admin" asp-action ="DashBoard"  class="btn btn-outline-secondary">Back</a>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div> 
+
+

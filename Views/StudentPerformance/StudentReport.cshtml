@@ -1,0 +1,113 @@
+@using Parent_Teacher_Daily_Communication_System.Models
+@model ReportPerformanceDetail
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+        <form method="get" asp-controller="StudentPerformance" asp-action="StudentReport" class="d-flex align-items-end">
+            <div class="mr-2" style="flex: 1;">
+                <select name="time" class="form-control">
+                    <option value="">የጊዜ መረጃ ይወርዱ (Select Timeframe)</option>
+                    <option value="Today">ዛሬ (Today)</option>
+                    <option value="Week">የቀድሞ ሳምንት (Last Week)</option>
+                    <option value="Month">የቀድሞ ወር (Last Month)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">ፈልግ (Search)</button>
+        </form>
+    </div>
+    
+@if (Model.PerformanceReport != null && Model.PerformanceReport.Count() > 0)
+{
+    <span class="text-success">Total @Model.PerformanceReport.Count()</span>
+    <hr>
+    <div class="row">
+        @foreach (var report in Model.PerformanceReport)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <i class="fas fa-chart-line"></i> እንቅስቃሴ ሪፖርት / Performance Report
+                        </h5>
+                        <hr>
+                        <div class="mb-2">
+                            <strong>ምግብ ተመግቧል / Meal:</strong> <span style="color: blue;">@report.Meal</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>በንቃት ተሳትፍዋል / Active Participation:</strong> <span style="color: green;">@report.ActiveParticipation</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>ተዝናንትዋል / Having Fun:</strong> <span style="color: orange;">@report.HavingFun</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>ስርዓት ጠብቋል  / Formality:</strong> <span style="color: purple;">@report.Formality</span>
+                        </div>
+
+                        <hr>
+                        <div class="mb-2">
+                            <strong>የእጅ ፅሑፍ  / Handwriting:</strong> <span style="color: teal;">@report.Handwriting</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>ማንበብ / Reading Skill:</strong> <span style="color: maroon;">@report.Readingskill</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>የቤተሰብ ክትትል / Parent Follow-Up:</strong> <span style="color: olive;">@report.Parentfollowup</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>ንብረት አያያዝ / Material Handling:</strong> <span style="color: navy;">@report.Materialhandling</span>
+                        </div>
+                        <hr>
+                          <div class="mb-2">
+                            <strong></strong> <span style="color: navy;">የአስተማሪዉ አስተያየት / Teacher Comment @report.TeacherComment</span>
+                        </div>
+
+
+
+                        <hr>
+                        <div class="mb-2">
+                            <strong></strong> <span style="color: navy;">@report.CreatedAt</span>
+                        </div>
+                      
+                        
+                        <div class="mb-2">
+                            <strong></strong> <span style="color: navy;">Posted By @report.CreatedBy</span>
+                        </div>
+                        <hr>
+
+                    @if(report.ParentComment != null){
+
+                        <div class="mb-2">
+                            <span class="text-warning">የቤተሰብ አስተያየት / Parent Comment </span>
+                            <p>@report.ParentComment</p>
+                        </div>
+                    }
+
+                    else{
+                        <form method="post" asp-controller="StudentPerformance" asp-action="ParentComment">
+                            <div class="col-12">
+                                <label for="exampleFormControlTextarea1" class="form-label mb-3"> አስተያየት (Parent's Comment)</label>
+                                <textarea class="form-control" name="Comment" rows="3"></textarea>
+                            </div>
+                            <input type="hidden" name="PerformanceId" value="@report.Id">
+                            <button type="submit" class="btn btn-outline-success">Post</button>
+                        </form>
+
+                        }
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+else
+{
+    <div class="alert alert-info text-center" role="alert">
+        <i class="fas fa-info-circle"></i> አንድ እንቅስቃሴ ሪፖርት አልተገኘም / No performance reports found.
+    </div>
+}
+</div>
